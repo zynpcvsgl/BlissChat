@@ -4,15 +4,14 @@ import prisma from '../libs/prismadb'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 
 const authOptions: NextAuthOptions = {
+    adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
   ],
-  pages: {
-    signIn: "/signin",
-  },
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 const handler = NextAuth(authOptions);
