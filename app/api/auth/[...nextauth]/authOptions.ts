@@ -3,7 +3,6 @@ import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-
 import prisma from "@/app/libs/prismadb";
 
 const authOptions: AuthOptions = {
@@ -20,7 +19,7 @@ const authOptions: AuthOptions = {
         password: { label: 'password', type: 'password' },
       },
       async authorize(credentials) {
-        if (!credentials?.email  !credentials?.password) {
+        if (!credentials?.email || !credentials?.password) {
           throw new Error('Invalid Credentials');
         }
 
@@ -30,7 +29,7 @@ const authOptions: AuthOptions = {
           }
         });
 
-        if (!user  !user?.hashedPassword) {
+        if (!user || !user.hashedPassword) {
           throw new Error('Invalid credentials');
         }
 
